@@ -11,30 +11,54 @@ namespace TareaPractica3
     {
         async public Task Conectar()
         {
-            int cantidad = 0;
-            Console.Write("Indique cuántos usuarios aleatorios desea obtener: "+"\n");
-            string entrada = Console.ReadLine();
+            bool continuar = true;
 
-            if (int.TryParse(entrada, out cantidad))
+            while (continuar)
             {
-                string url = $"https://randomuser.me/api/?results={cantidad}";
-                var result = await GetUser(url);
-
-                foreach (var item in result.results)
+                try
                 {
-                    Console.WriteLine($"{item.name.title} {item.name.first} {item.name.last}");
-                }
-            }
-            else
-            {
-                Console.WriteLine($"\nDebe digitar un número. Intente nuevamente.");                
-            }
+                    int cantidad = 0;
+                    Console.Write("\nIndique cuántos usuarios aleatorios desea obtener: ");
+                    string entrada = Console.ReadLine();
 
-            async Task<Root> GetUser(string url)
-            {
-                var http = new HttpClient();
-                var result = await http.GetFromJsonAsync<Root>(url);
-                return result!;
+                    if (int.TryParse(entrada, out cantidad))
+                    {
+                        Console.WriteLine("\nGenerando usuarios aleatorios...");
+
+                        string url = $"https://randomuser.me/api/?results={cantidad}";
+                        var result = await GetUser(url);
+
+                        foreach (var item in result.results)
+                        {
+                            Console.WriteLine($"\nNombre: {item.name.title} {item.name.first} {item.name.last}" +
+                                $"\nGénero: {item.gender}\nCorreo electrónico: {item.email}\nPaís: {item.location.country}");
+                        }
+                        Console.WriteLine("\nSe ha generado la lista solicitada.\n" +
+                            "\nSi desea generar más usuarios aleatorios presione la letra 's' o presione cualquier otra tecla" +
+                            " para salir del programa.");
+                        entrada = Console.ReadLine();
+                        if(entrada.ToLower() != "s")
+                        {
+                            continuar = false;
+                            Console.WriteLine("\nSaliendo del programa...");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"\nDebe digitar un número. Intente nuevamente.");
+                    }
+
+                    async Task<Root> GetUser(string url)
+                    {
+                        var http = new HttpClient();
+                        var result = await http.GetFromJsonAsync<Root>(url);
+                        return result!;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"\nHa ocurrido un error, pruebe inicializando la aplicación nuevamente. {ex.Message}");
+                }
             }
         }
     }
