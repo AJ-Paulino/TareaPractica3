@@ -28,7 +28,7 @@ namespace TareaPractica3
                         string url = $"https://randomuser.me/api/?results={cantidad}";
                         var result = await GetUser(url);
 
-                        foreach (var item in result.results)
+                        foreach (var item in result.results) 
                         {
                             Console.WriteLine($"\nNombre: {item.name.title} {item.name.first} {item.name.last}" +
                                 $"\nGénero: {item.gender}\nCorreo electrónico: {item.email}\nPaís: {item.location.country}");
