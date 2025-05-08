@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TareaPractica3
+namespace TareaPractica3 
 {
     public class Result : User 
     {
