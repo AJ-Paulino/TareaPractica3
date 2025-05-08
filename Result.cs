@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TareaPractica3
 {
-    public class Result : User
+    public class Result : User 
     {
         public string gender { get; set; }
         public Name name { get; set; }
